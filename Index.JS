@@ -20,10 +20,6 @@ const data = new SlashCommandBuilder()
 const prefix = "!";
 
 Client.on("ready", () => {
-
-    //Client.application.commands.create(data);
-    Client.guilds.cache.get("949999873778942072").commands.create(data);
-
     console.log("bot operationnel");
 });
 
@@ -50,10 +46,55 @@ Client.on("messageCreate", message => {
         message.reply("pong")
     }
     else if (message.content === prefix + "help"){
-        message.channel.send("**__Voici les commandes du Bot__**\n - -ping : renvoie pong ");
+        message.channel.send("**__Voici les commandes du Bot__**\n - !ping : renvoie pong ");
     }
 });
 
+
+
+
+
+
+'use strict';
+
+// On importe les classes nécessaire au bon fonctionnement du bot
+const { Client, MessageEmbed, Intents } = require('discord.js');
+
+// On instancie le client Discord
+const client = new Client({ ws: { intents: Intents.ALL }});
+
+// Dès que notre bot est prêt, on affiche un message dans la console
+client.on('ready', () => {
+    console.log('The bot is ready!');
+});
+
+// Dès qu'un nouveau membre rejoint le serveur,
+// on récupère les informations du salon via son ID
+// puis on récupère les informations du membre,
+// et on génère un nouveau message embarqué qu'on envoie
+client.on('guildMemberAdd', async (member) => {
+    // Récupération des informations du salon
+    const channel = await client.channels.fetch('826500313824493638');
+
+    // Récupération des informations du nouveau membre
+    const user = await client.users.fetch(member.id);
+
+    // On créé un nouveau message embarqué,
+    // et on déclare le titre, la couleur, etc...
+    const embed = new MessageEmbed()
+        .setTitle(`Bienvenue sur Discord Dévellopeur !`)
+        .setColor(0xff0000)
+        .setDescription(`${member}, toute l'équipe et notre communauté te souhaite la bienvenue !`)
+        .setURL('')
+        .setFooter(`N'oubliez pas de respecter les règles du serveur Discord.`)
+        .setThumbnail(user.displayAvatarURL());
+
+    // Pour terminer, on envoie le message embarqué
+    channel.send(embed);
+});
+
+// On se connecte à l'API avec un token (voir la suite du tutoriel)
+client.login(process.env.DISCORD_TOKEN);
 
 
 Client.on("guildMemberAdd", member => {
@@ -65,13 +106,6 @@ Client.on("guildMemberRemove", member => {
 });
 
 
-
-
-
-Client.login("OTQ5OTk4Mzc3MzE4MzYzMTk2.YiSg7w.oUq7NErt_Iwol9rb-yAgzof7J0o")
-
-
-
-
+Client.login("OTY4OTIyMDA5NTA3NjAyNTMz.Yml48A.WVS7Dau54WK1Pd2ZYXIo4pC9FsE")
 
 
